@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Social Media Scheduler</title>
+  <style>
+    body { font-family: Arial, sans-serif; background:#f4f6f8; margin:0; }
+    header { background:#1d3557; color:#fff; padding:16px; text-align:center; }
+    h1 { margin:0; }
+    .container { max-width:900px; margin:auto; padding:16px; }
+    .card { background:#fff; padding:16px; border-radius:10px; box-shadow:0 2px 5px rgba(0,0,0,0.1); margin-bottom:16px; }
+    label { display:block; margin-top:10px; font-weight:bold; }
+    input, textarea, select { width:100%; padding:8px; margin-top:4px; border-radius:6px; border:1px solid #ccc; }
+    button { margin-top:12px; padding:10px 16px; border:none; border-radius:8px; background:#457b9d; color:#fff; font-weight:bold; cursor:pointer; }
+    button:hover { background:#1d3557; }
+    table { width:100%; border-collapse:collapse; margin-top:12px; }
+    th, td { padding:10px; border-bottom:1px solid #ddd; text-align:left; }
+    .analytics { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:12px; margin-top:16px; }
+    .metric { background:#f1faee; padding:12px; border-radius:8px; text-align:center; }
+    .metric h2 { margin:0; font-size:22px; color:#1d3557; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>📅 Social Media Scheduler</h1>
+  </header>
+
+  <div class="container">
+
+    <!-- Schedule Post -->
+    <div class="card">
+      <h2>Schedule a Post</h2>
+      <label for="platform">Choose Platform:</label>
+      <select id="platform">
+        <option>Instagram</option>
+        <option>Twitter (X)</option>
+        <option>LinkedIn</option>
+      </select>
+
+      <label for="postContent">Post Content:</label>
+      <textarea id="postContent" rows="3" placeholder="Write your caption..."></textarea>
+
+      <label for="scheduleTime">Schedule Date & Time:</label>
+      <input type="datetime-local" id="scheduleTime"/>
+
+      <button onclick="schedulePost()">Schedule Post</button>
+    </div>
+
+    <!-- Scheduled Posts -->
+    <div class="card">
+      <h2>Scheduled Posts</h2>
+      <table id="postTable">
+        <thead>
+          <tr>
+            <th>Platform</th>
+            <th>Content</th>
+            <th>Schedule Time</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <!-- Analytics -->
+    <div class="card">
+      <h2>Analytics</h2>
+      <div class="analytics">
+        <div class="metric"><h2 id="likes">0</h2><p>Likes</p></div>
+        <div class="metric"><h2 id="shares">0</h2><p>Shares</p></div>
+        <div class="metric"><h2 id="reach">0</h2><p>Reach</p></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const postTable = document.querySelector("#postTable tbody");
+
+    function schedulePost() {
+      const platform = document.getElementById("platform").value;
+      const content = document.getElementById("postContent").value;
+      const time = document.getElementById("scheduleTime").value;
+
+      if (!content || !time) {
+        alert("Please enter content and time.");
+        return;
+      }
+
+      // Add post to table
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${platform}</td>
+        <td>${content}</td>
+        <td>${time}</td>
+        <td>Scheduled ✅</td>
+      `;
+      postTable.appendChild(row);
+
+      // Reset form
+      document.getElementById("postContent").value = "";
+      document.getElementById("scheduleTime").value = "";
+
+      // Simulate analytics update
+      document.getElementById("likes").innerText = Math.floor(Math.random() * 500);
+      document.getElementById("shares").innerText = Math.floor(Math.random() * 100);
+      document.getElementById("reach").innerText = Math.floor(Math.random() * 2000);
+    }
+  </script>
+</body>
+</html>
